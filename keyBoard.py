@@ -4,3 +4,8 @@ butonTK=KeyboardButton("Кафедра технической кибернети
 
 greetKB=ReplyKeyboardMarkup()
 greetKB.add(butonTK)
+
+butonNW = KeyboardButton("Нейронные сети")
+
+greetCategory = ReplyKeyboardMarkup()
+greetKB.add(butonNW)
