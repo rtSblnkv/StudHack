@@ -2,8 +2,6 @@ from aiogram import Bot,Dispatcher,executor,types
 import logging
 import config
 import sqlite3
-
-
 import keyBoard
 
 commands_ ={
