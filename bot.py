@@ -4,10 +4,12 @@ import config
 import sqlite3
 
 
+import keyBoard
 
 commands_ ={
     'start': 'Привет,студент! Этот бот поможет тебе найти научрука!',
     'help':'Доступные команды ',
+
 }
 
 
@@ -16,7 +18,11 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
-    await message.answer("Hi bitch!")
+    await message.answer("Выберите кафедру", replay_markup=keyBoard.greetKB)
+
+@dp.message_handler(lambda message: message.text == "Кафедра технической кибернетики")
+async def TK(message: types.Message):
+    await message.answer("Выберете категорию", replay_markup=keyBoard.greetCategory)
 
 
 @dp.message_handler(commands=['help'])
