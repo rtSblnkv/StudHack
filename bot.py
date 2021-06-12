@@ -3,6 +3,9 @@ from aiogram import Bot,Dispatcher,executor,types
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
 import logging
 import config
+import sqlite3
+
+
 import keyBoard
 
 commands_ ={
@@ -12,14 +15,16 @@ commands_ ={
 }
 
 
-
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
 
+<<<<<<< HEAD
 cafedres= list()
 cafedres.append("Кафедра технической кибернетики")
 cafedres.append("кафедра физики")
 
+=======
+>>>>>>> 90b13daafb14a701118881215edbc40e3996c349
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
     await message.answer("Кто вы?\nЯ студент\nЯ преподаватель\nПомощь",reply_markup=keyBoard.greetKB)
