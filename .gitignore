@@ -1,4 +1,4 @@
 .venv
 config.py
 .vscode
-_pycache
+__pycache___
