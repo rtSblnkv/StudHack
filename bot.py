@@ -63,7 +63,7 @@ def get_info(work_id):
 @dp.message_handler(lambda message:  message.text.isdigit())
 async def getContact(message: types.Message):
     print('Темы после',themes)
-    teacher_id = get_info(int(message.text))
+    teacher_id = ds.get_teacher_id(int(message.text))
     teacher = ds.get_teacher(teacher_id)
     print(teacher)
     print(teacher_id)

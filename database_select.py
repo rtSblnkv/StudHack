@@ -111,3 +111,24 @@ def get_teachers_ids():
     finally:
         database.close_connection(sqlite_connection)
         return result
+
+'''science_works 
+(work_id INTEGER PRIMARY KEY NOT NULL,
+ work_name TEXT,
+ teacher_id INTEGER NOT NULL,
+ FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id)
+)'''
+
+def get_teacher_id(work_id):
+    try:
+        sqlite_connection = database.create_connection()
+        cursor = sqlite_connection.cursor()
+        cursor.execute(''' SELECT teacher_id FROM science_works WHERE work_id = ? ''',(work_id,))
+        with sqlite_connection:
+            data = cursor.fetchone()       
+    except Exception as exp:
+        print(exp)
+    finally:
+        database.close_connection(sqlite_connection)
+        return data[0]
+
