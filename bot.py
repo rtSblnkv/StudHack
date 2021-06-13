@@ -7,13 +7,6 @@ import sqlite3
 import keyBoard
 import texts
 
-commands_ ={
-    'start': 'Привет,студент! Этот бот поможет тебе найти научрука!',
-    'help':'Доступные команды ',
-}
-
-
-
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
@@ -30,7 +23,7 @@ async def send_hello_answer(message:types.Message):
 
 @dp.message_handler(lambda message: message.text == "Я студент")
 async def TK(message: types.Message):
-    await message.answer("Выберите кафедру")
+    await message.answer("Выбери кафедру")
     i=0
     mes=""
     while i<len(cafedres) :
@@ -47,7 +40,6 @@ works = list()
 works.append("абра кадабра")
 works.append("ахалай махалай")
 works.append("сяськи масяськи")
-
 
 
 @dp.message_handler(lambda message: message.text == "Кафедра технической кибернетики")

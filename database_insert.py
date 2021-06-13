@@ -35,8 +35,7 @@ def insert_teacher(id,name,cathedra_id,location,mail):
         print(exp)
     finally:
         database.close_connection(sqlite_connection)
-
-   
+  
 ''' students
 (chatid INTEGER PRIMARY KEY NOT NULL,
  surname TEXT NOT NULL,
@@ -51,7 +50,6 @@ def insert_student(id,name,group_number):
         print(exp)
     finally:
         database.close_connection(sqlite_connection)
-
 
 '''science_works 
 (work_id INTEGER PRIMARY KEY NOT NULL,
@@ -69,24 +67,6 @@ def insert_scienceWork(work_id,work_name,teacher_id):
         print(exp)
     finally:
         database.close_connection(sqlite_connection)
-
-def select_from(table):
-    try:
-        sqlite_connection = database.create_connection()
-        cursor = sqlite_connection.cursor()
-        cursor.execute('''SELECT * FROM {0}'''.format(table))
-        with sqlite_connection:
-            print(cursor.fetchall())
-    except Exception as exp:
-        print(exp)
-    finally:
-        database.close_connection(sqlite_connection)
-
-def select_all():
-    select_from('cathedras')
-    select_from('students')
-    select_from('teachers')
-    select_from('science_works')
 
 #def insert_cathedra(cathedra_id,name):
 #def insert_teacher(id,name,cathedra_id,location,mail):
@@ -161,8 +141,6 @@ def insert():
     insert_scienceWork(53, 'Разработка алгоритмов сплайн-аппроксимации функций с точечными особенностями', 22)
 
 #insert_scienceWork(1,'Кластеризация данных',1)
-
-select_all()
 
 
 

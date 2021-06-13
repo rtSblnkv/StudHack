@@ -3,6 +3,7 @@ import sqlite3
 def create_connection():
     try:       
         sqlite_connection = sqlite3.connect('science_works.db')
+        print('Connection opened')
     except sqlite3.Error as error:
         print('Error!',error)
     finally:
