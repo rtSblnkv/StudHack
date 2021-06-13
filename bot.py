@@ -6,6 +6,7 @@ import config
 import sqlite3
 import keyBoard
 import texts
+import re
 import database_select as ds
 import database_insert as di
 import database_delete as dd
@@ -15,6 +16,7 @@ import re
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
+themes = []
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
@@ -41,22 +43,9 @@ async def I_student(message: types.Message):
     print(mes)
     await message.answer(mes)
 
-@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
-async def TK(message: types.Message):
-    themes = ds.get_themes(message.text)
-    mes = ' '
-    for theme in themes:
-        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
-    print(mes)
-    await message.answer(mes)
-
-@dp.message_handler(lambda message:  message.text.isdigit())
-async def getContact(message: types.Message):
-    await message.answer("in progress")
 
 paswordCheckActivate = False
 
-Themse = list()
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
 async def I_teacher(message: types.Message):
@@ -95,7 +84,7 @@ async def addThemeF(message: types.Message):
         await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
 delTheme = False
-cathedra =[]
+
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def delThemeF(message: types.Message):
@@ -130,8 +119,42 @@ async def Registration(message: types.Message):
     date = await message.text
     registration=False
 
+@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
+async def TK(message: types.Message):
+    print(message.Text)
+    themes = ds.get_themes(message.text)
+    mes = ' '
+    for theme in themes:
+        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
+    await message.answer(mes)
+
+#work_name,work_id,teachers.id
+def get_info(work_id):
+    for theme in themes:
+        if theme[1] == work_id:
+            return theme[2]
+
+#(1, 'Куприянов Александр Викторович', 2, '1 корпус, 401 к. или 335 к.', 'sau.yap@gmail.com')
+@dp.message_handler(lambda message:  message.text.isdigit())
+async def getContact(message: types.Message):
+    teacher_id = get_info(message.Text)
+    teacher = ds.get_teacher(teacher_id)
+    mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
+    await message.answer(mes)
+
 
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
+
+
+
+
+
+
+
+
+
+
 
