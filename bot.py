@@ -1,6 +1,6 @@
 from typing import List
 from aiogram import Bot,Dispatcher,executor,types
-from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton, message
 import logging
 import config
 import sqlite3
@@ -32,7 +32,7 @@ async def send_help_titles(message:types.Message):
 
 #(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
-async def TK(message: types.Message):
+async def I_student(message: types.Message):
     cathedras = ds.get_cathedras()
     await message.answer("Выбери кафедру")
     mes = ' '
@@ -45,7 +45,7 @@ paswordCheckActivate = False
 
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
-async def TK(message: types.Message):
+async def I_teacher(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("Добро пожаловать", reply_markup=keyBoard.greetTeacher)
         teacher_themes = ds.get_teacher_themes(message.from_user.id)
@@ -61,7 +61,7 @@ async def TK(message: types.Message):
 addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
-async def TK(message: types.Message):
+async def Add_ThemeStart(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("введите название в формате [Создать [Тема]]")
         addTheme = True
@@ -84,7 +84,7 @@ delTheme = False
 
 
 @dp.message_handler(lambda message: message.text == "Удалить")
-async def TK(message: types.Message):
+async def delThemeF(message: types.Message):
     await message.answer("Выберете номер и введите в формате [Убрать [номер]]")
     
 @dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
@@ -124,6 +124,9 @@ async def TK(message: types.Message):
         mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
     await message.answer(mes)
 
+@dp.message_handler(lambda message:  message.text.isdigit())
+async def getContact(message: types.Message):
+    await message.answer("in progress")
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
