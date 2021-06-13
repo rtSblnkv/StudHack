@@ -120,7 +120,6 @@ async def TK(message: types.Message):
     mes = ' '
     for theme in themes:
         mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
-    print(mes)
     await message.answer(mes)
 
 
