@@ -120,7 +120,7 @@ works = list()
 
 
 
-@dp.message_handler(lambda message: message.text == "Кафедра технической кибернетики")
+@dp.message_handler()
 async def TK(message: types.Message):
     themes = ds.get_themes(message.Text)
     mes = ' '
