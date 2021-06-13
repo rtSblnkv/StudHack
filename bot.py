@@ -49,11 +49,14 @@ addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def TK(message: types.Message):
-    await message.answer("введите название в формате [Добавить [Тема]]")
+#if преподаватель
+    await message.answer("введите название в формате [Создать [Тема]]")
     addTheme = True
-
-@dp.message_handler(lambda message: message.text == "Добавить"+str(b))
+#else ученик
+@dp.message_handler(lambda message: message.text == "Создать")
 async def addThemeF(message: types.Message):
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
     #theam = ""
     await message.answer("добавление произведено")
     #theam = message.text
@@ -68,13 +71,16 @@ async def TK(message: types.Message):
     await message.answer("выберете номер и введите в формате [Удалить [номер]]")
     #delTheme = True
 
-@dp.message_handler(lambda message: message.text[:7]=="Удалить" and message.text[9:end])
+@dp.message_handler(lambda message: message.text[:7]=="Удалить")
 async def DelTheme(message: types.Message):
+    #if препод
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
     number = int(await message.text)
     await message.answer("удаление произведено")
     #await delTheme=False
     #здесь должно быть удаление темы через бд
-
+    #else ученик
 
 registration = False
 
