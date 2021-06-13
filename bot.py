@@ -6,6 +6,7 @@ import config
 import sqlite3
 import keyBoard
 import texts
+import re
 import database_select as ds
 import database_insert as di
 import database_delete as dd
@@ -118,10 +119,12 @@ async def Registration(message: types.Message):
 
 @dp.message_handler()
 async def TK(message: types.Message):
+    print(message.Text)
     themes = ds.get_themes(message.Text)
     mes = ' '
     for theme in themes:
         mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
     await message.answer(mes)
 
 #work_name,work_id,teachers.id
@@ -141,11 +144,6 @@ async def getContact(message: types.Message):
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
 
-#work_name,work_id,teachers.id
-def get_info(theme_):
-    for theme in themes:
-        if theme[0] == theme_:
-            return theme[2]
 
 
 
