@@ -70,13 +70,15 @@ async def TK(message: types.Message):
 
 @dp.message_handler(lambda message: re.match(r'Создать ',message.text))
 async def addThemeF(message: types.Message):
-    teacher_themes = ds.get_teacher_themes(message.from_user.id)
-    b=message.text
-    b[8:]#обрезание строки до темы + пробел
-    #theam = ""
-    await message.answer("Добавление произведено")
-    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),b[8:],message.user_from.id)
+    if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
     
+        teacher_themes = ds.get_teacher_themes(message.from_user.id)
+        b=message.text
+        b[8:]#обрезание строки до темы + пробел
+        await message.answer("Добавление произведено")
+        di.insert_scienceWork(message.user_from.id + teacher_themes.count(),b[8:],message.user_from.id)
+    else:
+        await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
 delTheme = False
 cathedra =[]
