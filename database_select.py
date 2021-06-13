@@ -111,5 +111,3 @@ def get_teachers_ids():
     finally:
         database.close_connection(sqlite_connection)
         return result
-
-get_themes('Кафедра технической кибернетики')
