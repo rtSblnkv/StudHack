@@ -15,7 +15,10 @@ import database_delete as dd
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
-themes = []
+themes = list()
+paswordCheckActivate = False
+addTheme = False
+registration = False
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
@@ -42,7 +45,6 @@ async def I_student(message: types.Message):
     print(mes)
     await message.answer(mes)
 
-paswordCheckActivate = False
 
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
@@ -59,7 +61,6 @@ async def I_teacher(message: types.Message):
         await message.answer("Введите пароль")
         paswordCheckActivate = True
 
-addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def Add_ThemeStart(message: types.Message):
@@ -100,7 +101,6 @@ async def DelTheme(message: types.Message):
     else:
         await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
-registration = False
 
 @dp.message_handler(lambda: paswordCheckActivate==True)
 async def CheckPassword(message: types.Message):
