@@ -69,3 +69,6 @@ def get_teacher(teacher_id):
         database.close_connection(sqlite_connection)
         return data
 
+
+
+

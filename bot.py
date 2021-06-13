@@ -6,6 +6,7 @@ import config
 import sqlite3
 import keyBoard
 import texts
+import database_select
 
 
 bot = Bot(token=config.TOKEN)
@@ -30,7 +31,7 @@ async def TK(message: types.Message):
     while i<len(cafedres) :
         i+=1
         mes = mes+ str(i) + ". " + cafedres[i-1] +'\n'
-        
+
     await message.answer(mes)
 
 paswordCheckActivate = False
