@@ -14,6 +14,7 @@ import database_delete as dd
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
+cathedras = []
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
@@ -71,10 +72,10 @@ async def TK(message: types.Message):
 async def addThemeF(message: types.Message):
     teacher_themes = ds.get_teacher_themes(message.from_user.id)
     b=message.text
-    b[8:]#обрезание строки до темы + пробел
+    b[9:]#обрезание строки до темы + пробел
     #theam = ""
     await message.answer("Добавление произведено")
-    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
+    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),b[9:],message.user_from.id)
     
 
 delTheme = False
@@ -115,19 +116,16 @@ async def Registration(message: types.Message):
 
 
 works = list()
-works.append("абра кадабра")
-works.append("ахалай махалай")
-works.append("сяськи масяськи")
+
 
 
 @dp.message_handler(lambda message: message.text == "Кафедра технической кибернетики")
 async def TK(message: types.Message):
-    i=0
-    mes=""
-    while i<len(works) :
-        i+=1
-        mes = mes+ str(i) + ". " + works[i-1] +'\n'
-        
+    themes = ds.get_themes(message.Text)
+    mes = ' '
+    for theme in themes:
+        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
     await message.answer(mes)
 
 

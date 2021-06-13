@@ -33,7 +33,7 @@ def get_cathedras():
         return data
   
 
-def get_themes(cathedraId):
+def get_themes(cathedra_name):
     print ('Get Themes')
     try:
         sqlite_connection = database.create_connection()
@@ -42,7 +42,7 @@ def get_themes(cathedraId):
         work_name,work_id,teachers.id
         FROM science_works INNER JOIN teachers 
         ON science_works.teacher_id = teachers.id 
-        WHERE teachers.cathedra_id = ?''',(cathedraId,))
+        WHERE teachers.cathedra_id = ?''',(get_cathedra_id(cathedra_name),))
         with sqlite_connection:
             data = cursor.fetchone()
     except Exception as exp:
@@ -50,6 +50,19 @@ def get_themes(cathedraId):
     finally:
         database.close_connection(sqlite_connection)
         return data
+
+def get_cathedra_id(cathedra_name):
+    try:
+        sqlite_connection = database.create_connection()
+        cursor = sqlite_connection.cursor()
+        cursor.execute('''SELECT cathedra_id FROM cathedras where name = ? ''',(cathedra_name,))
+        with sqlite_connection:
+            data = cursor.fetchone()
+    except Exception as exp:
+        print(exp)
+    finally:
+        database.close_connection(sqlite_connection)
+        return data[0]
 
 
 def get_teacher_themes(teacherId):
@@ -97,6 +110,3 @@ def get_teachers_ids():
     finally:
         database.close_connection(sqlite_connection)
         return result
-
-
-
