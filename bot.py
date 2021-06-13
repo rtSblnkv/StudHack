@@ -9,6 +9,7 @@ import texts
 import database_select as ds
 import database_insert as di
 import database_delete as dd
+import re
 
 
 
@@ -39,6 +40,19 @@ async def I_student(message: types.Message):
         mes += str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
     print(mes)
     await message.answer(mes)
+
+@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
+async def TK(message: types.Message):
+    themes = ds.get_themes(message.text)
+    mes = ' '
+    for theme in themes:
+        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
+    await message.answer(mes)
+
+@dp.message_handler(lambda message:  message.text.isdigit())
+async def getContact(message: types.Message):
+    await message.answer("in progress")
 
 paswordCheckActivate = False
 
@@ -116,18 +130,7 @@ async def Registration(message: types.Message):
     date = await message.text
     registration=False
 
-@dp.message_handler()
-async def TK(message: types.Message):
-    themes = ds.get_themes(message.Text)
-    mes = ' '
-    for theme in themes:
-        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
-    print(mes)
-    await message.answer(mes)
 
-@dp.message_handler(lambda message:  message.text.isdigit())
-async def getContact(message: types.Message):
-    await message.answer("in progress")
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
