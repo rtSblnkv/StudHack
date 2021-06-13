@@ -124,9 +124,19 @@ async def TK(message: types.Message):
         mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
     await message.answer(mes)
 
+#work_name,work_id,teachers.id
+def get_info(work_id):
+    for theme in themes:
+        if theme[1] == work_id:
+            return theme[2]
+
+#(1, 'Куприянов Александр Викторович', 2, '1 корпус, 401 к. или 335 к.', 'sau.yap@gmail.com')
 @dp.message_handler(lambda message:  message.text.isdigit())
 async def getContact(message: types.Message):
-    await message.answer("in progress")
+    teacher_id = get_info(message.Text)
+    teacher = ds.get_teacher(teacher_id)
+    mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
+    await message.answer(mes)
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
