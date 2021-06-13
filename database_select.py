@@ -99,5 +99,4 @@ def get_teachers_ids():
         return result
 
 
-print(get_teachers_ids())
 

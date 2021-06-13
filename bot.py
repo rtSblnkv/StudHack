@@ -7,6 +7,9 @@ import sqlite3
 import keyBoard
 import texts
 import database_select as ds
+import database_insert as di
+import database_delete as dd
+
 
 
 bot = Bot(token=config.TOKEN)
@@ -23,7 +26,7 @@ async def TK(message: types.Message):
     await message.answer("Выбери кафедру")
     mes = ' '
     for cathedra in cathedras:
-        mes += ' ' + str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
+        mes += str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
     print(mes)
     await message.answer(mes)
 
@@ -36,6 +39,11 @@ async def TK(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("Добро пожаловать", reply_markup=keyBoard.greetTeacher)
         teacher_themes = ds.get_teacher_themes(message.from_user.id)
+        mes = ' '
+        for teacher_theme in teacher_themes:
+            mes += ' ' + str(teacher_theme[0]) +'. '+ str(teacher_theme[1]) + '\n'
+        print(mes)
+        await message.answer(mes)
     else:
         await message.answer("Введите пароль")
         paswordCheckActivate = True
@@ -49,12 +57,11 @@ async def TK(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == "Добавить"+str(b))
 async def addThemeF(message: types.Message):
-    #theam = ""
+    theme = message.text[9:]
+    teacher_themes = ds.get_teacher_themes(message.from_user.id)
     await message.answer("Добавление произведено")
-    #theam = message.text
-    #addTheme = False
-    #здесь должно быть добавление темы через бд
-
+    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
+    
 
 delTheme = False
 
@@ -69,6 +76,7 @@ async def DelTheme(message: types.Message):
     await message.answer(" Удаление произведено")
     #await delTheme=False
     #здесь должно быть удаление темы через бд
+    dd.del_scienceWorks(number)
 
 
 registration = False
