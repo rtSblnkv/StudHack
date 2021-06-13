@@ -1,6 +1,6 @@
 from typing import List
 from aiogram import Bot,Dispatcher,executor,types
-from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton, message
 import logging
 import config
 import sqlite3
@@ -125,6 +125,9 @@ async def TK(message: types.Message):
     print(mes)
     await message.answer(mes)
 
+@dp.message_handler(lambda message:  message.text.isdigit())
+async def getContact(message: types.Message):
+    await message.answer("in progress")
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
