@@ -1,8 +1,8 @@
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
 
-butonTK=KeyboardButton('Я студент')
+butonNW=KeyboardButton('Я студент')
 greetKB=ReplyKeyboardMarkup()
-greetKB.add(butonTK)
+greetKB.add(butonNW)
 
 butonNW = KeyboardButton('Я преподаватель')
 greetCategory = ReplyKeyboardMarkup()
@@ -12,3 +12,14 @@ butonNW = KeyboardButton('Помощь')
 greetCategory = ReplyKeyboardMarkup()
 greetKB.add(butonNW)
 
+
+
+
+greetTeacher=ReplyKeyboardMarkup()
+butonNW = KeyboardButton('Добавить')
+greetCategory = ReplyKeyboardMarkup()
+greetTeacher.add(butonNW)
+
+butonNW = KeyboardButton('Удалить')
+greetCategory = ReplyKeyboardMarkup()
+greetTeacher.add(butonNW)
