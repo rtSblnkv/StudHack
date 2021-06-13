@@ -11,24 +11,14 @@ import texts
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f1d3a83b4b684b1bc066fb62e8952170e19a7553
 cafedres= list()
 cafedres.append("Кафедра технической кибернетики")
 cafedres.append("кафедра физики")
 
-<<<<<<< HEAD
-
-@dp.message_handler(commands=['start'])
-async def send_hello_answer(message:types.Message):
-    await message.answer("Кто вы?",reply_markup=keyBoard.greetKB)
-=======
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
     await message.answer(texts.start_text,reply_markup=keyBoard.greetKB)
->>>>>>> f1d3a83b4b684b1bc066fb62e8952170e19a7553
     
 
 
