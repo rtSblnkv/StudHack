@@ -14,7 +14,6 @@ import database_delete as dd
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
-cathedras = []
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
@@ -63,19 +62,20 @@ addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def TK(message: types.Message):
-#if преподаватель
-    await message.answer("введите название в формате [Создать [Тема]]")
-    addTheme = True
-#else ученик
+    if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
+        await message.answer("введите название в формате [Создать [Тема]]")
+        addTheme = True
+    else:
+        await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
 @dp.message_handler(lambda message: re.match(r'Создать ',message.text))
 async def addThemeF(message: types.Message):
     teacher_themes = ds.get_teacher_themes(message.from_user.id)
     b=message.text
-    b[9:]#обрезание строки до темы + пробел
+    b[8:]#обрезание строки до темы + пробел
     #theam = ""
     await message.answer("Добавление произведено")
-    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),b[9:],message.user_from.id)
+    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
     
 
 delTheme = False
@@ -84,19 +84,18 @@ cathedra =[]
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
     await message.answer("Выберете номер и введите в формате [Убрать [номер]]")
-    #delTheme = True
-
+    
 @dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
 async def DelTheme(message: types.Message):
-    #if препод
-    b=message.text
-    b[8:]#обрезание строки до темы + пробел
-    number = int(await message.text)
-    await message.answer(" Удаление произведено")
-    #await delTheme=False
-    #здесь должно быть удаление темы через бд
-    dd.del_scienceWorks(number)
-    #else ученик
+    if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
+        b=message.text
+        b[8:]#обрезание строки до темы + пробел
+        number = int(await message.text)
+        dd.del_scienceWorks(number)
+        await message.answer(" Удаление произведено")
+        #здесь должно быть удаление темы через бд
+    else:
+        await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
 registration = False
 
@@ -117,16 +116,19 @@ async def Registration(message: types.Message):
 
 
 works = list()
-
+works.append("абра кадабра")
+works.append("ахалай махалай")
+works.append("сяськи масяськи")
 
 
 @dp.message_handler()
 async def TK(message: types.Message):
-    themes = ds.get_themes(message.Text)
-    mes = ' '
-    for theme in themes:
-        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
-    print(mes)
+    i=0
+    mes=""
+    while i<len(works) :
+        i+=1
+        mes = mes+ str(i) + ". " + works[i-1] +'\n'
+        
     await message.answer(mes)
 
 
