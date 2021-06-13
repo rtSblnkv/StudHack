@@ -10,6 +10,7 @@ import re
 import database_select as ds
 import database_insert as di
 import database_delete as dd
+import re
 
 
 
@@ -117,10 +118,10 @@ async def Registration(message: types.Message):
     date = await message.text
     registration=False
 
-@dp.message_handler()
+@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
 async def TK(message: types.Message):
     print(message.Text)
-    themes = ds.get_themes(message.Text)
+    themes = ds.get_themes(message.text)
     mes = ' '
     for theme in themes:
         mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
@@ -140,6 +141,8 @@ async def getContact(message: types.Message):
     teacher = ds.get_teacher(teacher_id)
     mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
     await message.answer(mes)
+
+
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
