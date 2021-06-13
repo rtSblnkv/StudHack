@@ -44,6 +44,31 @@ async def I_student(message: types.Message):
     await message.answer(mes)
 
 
+@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
+async def TK(message: types.Message):
+    print(message.text)
+    themes = ds.get_themes(message.text)
+    mes = ' '
+    for theme in themes:
+        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
+    await message.answer(mes)
+
+#work_name,work_id,teachers.id
+def get_info(work_id):
+    for theme in themes:
+        if theme[1] == work_id:
+            return theme[2]
+
+#(1, 'Куприянов Александр Викторович', 2, '1 корпус, 401 к. или 335 к.', 'sau.yap@gmail.com')
+@dp.message_handler(lambda message:  message.text.isdigit())
+async def getContact(message: types.Message):
+    teacher_id = get_info(message.text)
+    teacher = ds.get_teacher(teacher_id)
+    mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
+    await message.answer(mes)
+
+
 paswordCheckActivate = False
 
 
@@ -118,31 +143,6 @@ async def CheckPassword(message: types.Message):
 async def Registration(message: types.Message):
     date = await message.text
     registration=False
-
-@dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
-async def TK(message: types.Message):
-    print(message.Text)
-    themes = ds.get_themes(message.text)
-    mes = ' '
-    for theme in themes:
-        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
-    print(mes)
-    await message.answer(mes)
-
-#work_name,work_id,teachers.id
-def get_info(work_id):
-    for theme in themes:
-        if theme[1] == work_id:
-            return theme[2]
-
-#(1, 'Куприянов Александр Викторович', 2, '1 корпус, 401 к. или 335 к.', 'sau.yap@gmail.com')
-@dp.message_handler(lambda message:  message.text.isdigit())
-async def getContact(message: types.Message):
-    teacher_id = get_info(message.Text)
-    teacher = ds.get_teacher(teacher_id)
-    mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
-    await message.answer(mes)
-
 
 
 if __name__ == '__main__':
