@@ -45,7 +45,21 @@ def get_themes(cathedraId):
         WHERE teachers.cathedra_id = ?''',(cathedraId,))
         with sqlite_connection:
             data = cursor.fetchone()
-        print(data)
+    except Exception as exp:
+        print(exp)
+    finally:
+        database.close_connection(sqlite_connection)
+        return data
+
+
+def get_teacher_themes(teacherId):
+    print ('Getting teacher Themes')
+    try:
+        sqlite_connection = database.create_connection()
+        cursor = sqlite_connection.cursor()
+        cursor.execute('''SELECT * FROM science_works WHERE teacher_id = ?''',(teacherId,))
+        with sqlite_connection:
+            data = cursor.fetchone()
     except Exception as exp:
         print(exp)
     finally:
@@ -67,6 +81,23 @@ def get_teacher(teacher_id):
         database.close_connection(sqlite_connection)
         return data
 
+def get_teachers_ids():
+    print ('Getting teacher_ids')
+    result = list()
+    try:
+        sqlite_connection = database.create_connection()
+        cursor = sqlite_connection.cursor()
+        cursor.execute(''' SELECT id FROM teachers ''')
+        with sqlite_connection:
+            data = cursor.fetchall()
+        for item in data:
+            result.append(item[0])
+    except Exception as exp:
+        print(exp)
+    finally:
+        database.close_connection(sqlite_connection)
+        return result
 
-print(get_cathedras())
+
+print(get_teachers_ids())
 

@@ -12,24 +12,19 @@ import database_select as ds
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
 
-
-cafedres= list()
-cafedres.append("Кафедра технической кибернетики")
-cafedres.append("кафедра физики")
-
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
     await message.answer(texts.start_text,reply_markup=keyBoard.greetKB)
     
-
 #(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
 async def TK(message: types.Message):
     cathedras = ds.get_cathedras()
     await message.answer("Выбери кафедру")
-    mes = str()
+    mes = ' '
     for cathedra in cathedras:
-        mes += ' ' + cathedra[0] +'. '+ cathedra[1] + '\n'
+        mes += ' ' + str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
+    print(mes)
     await message.answer(mes)
 
 paswordCheckActivate = False
@@ -38,9 +33,9 @@ Themse = list()
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
 async def TK(message: types.Message):
-    if(True):#проверка ИД преподавателя
+    if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("Добро пожаловать", reply_markup=keyBoard.greetTeacher)
-        #здесь нужно подгрузить из бд в Themes темы преподователя
+        teacher_themes = ds.get_teacher_themes(message.from_user.id)
     else:
         await message.answer("Введите пароль")
         paswordCheckActivate = True
@@ -49,8 +44,12 @@ addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def TK(message: types.Message):
+<<<<<<< HEAD
 #if преподаватель
     await message.answer("введите название в формате [Создать [Тема]]")
+=======
+    await message.answer("Введите название в формате [Добавить [Тема]]")
+>>>>>>> c7d36eb17719e5980dd63e78f2dc434f9e0faa46
     addTheme = True
 #else ученик
 @dp.message_handler(lambda message: message.text == "Создать")
@@ -58,7 +57,7 @@ async def addThemeF(message: types.Message):
     b=message.text
     b[8:]#обрезание строки до темы + пробел
     #theam = ""
-    await message.answer("добавление произведено")
+    await message.answer("Добавление произведено")
     #theam = message.text
     #addTheme = False
     #здесь должно быть добавление темы через бд
@@ -68,16 +67,20 @@ delTheme = False
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
-    await message.answer("выберете номер и введите в формате [Удалить [номер]]")
+    await message.answer("Выберете номер и введите в формате [Удалить [номер]]")
     #delTheme = True
 
+<<<<<<< HEAD
 @dp.message_handler(lambda message: message.text[:7]=="Удалить")
+=======
+@dp.message_handler(lambda message: message.text[:7]==" Удалить" and message.text[9:end])
+>>>>>>> c7d36eb17719e5980dd63e78f2dc434f9e0faa46
 async def DelTheme(message: types.Message):
     #if препод
     b=message.text
     b[8:]#обрезание строки до темы + пробел
     number = int(await message.text)
-    await message.answer("удаление произведено")
+    await message.answer(" Удаление произведено")
     #await delTheme=False
     #здесь должно быть удаление темы через бд
     #else ученик
