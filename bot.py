@@ -14,6 +14,7 @@ import database_delete as dd
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
+themes = []
 
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
@@ -42,7 +43,6 @@ async def TK(message: types.Message):
 
 paswordCheckActivate = False
 
-Themse = list()
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
 async def TK(message: types.Message):
@@ -79,7 +79,7 @@ async def addThemeF(message: types.Message):
     
 
 delTheme = False
-cathedra =[]
+
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
@@ -126,4 +126,19 @@ async def TK(message: types.Message):
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
+
+#work_name,work_id,teachers.id
+def get_info(theme_):
+    for theme in themes:
+        if theme[0] == theme_:
+            return theme[2]
+
+
+
+
+
+
+
+
+
 
