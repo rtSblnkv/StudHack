@@ -67,6 +67,9 @@ def get_info(work_id):
 async def getContact(message: types.Message):
     teacher_id = get_info(message.text)
     teacher = ds.get_teacher(teacher_id)
+    print(teacher_id)
+    print(teacher)
+    print(message.text)
     mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
     await message.answer(mes)
 
