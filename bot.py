@@ -7,7 +7,7 @@ import sqlite3
 import keyBoard
 import texts
 import database_select as ds
-
+import re
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
@@ -15,7 +15,17 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
     await message.answer(texts.start_text,reply_markup=keyBoard.greetKB)
-    
+
+@dp.message_handler(lambda message: message.text == "Помощь")
+async def send_help_titles(message:types.Message):
+    await message.answer(texts.help_text)
+
+
+@dp.message_handler(commands=['help'])
+async def send_help_titles(message:types.Message):
+    await message.answer(texts.help_text)
+
+
 #(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
 async def TK(message: types.Message):
@@ -44,15 +54,12 @@ addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def TK(message: types.Message):
-<<<<<<< HEAD
 #if преподаватель
     await message.answer("введите название в формате [Создать [Тема]]")
-=======
-    await message.answer("Введите название в формате [Добавить [Тема]]")
->>>>>>> c7d36eb17719e5980dd63e78f2dc434f9e0faa46
     addTheme = True
 #else ученик
-@dp.message_handler(lambda message: message.text == "Создать")
+
+@dp.message_handler(lambda message: re.match(r'Создать ',message.text))
 async def addThemeF(message: types.Message):
     b=message.text
     b[8:]#обрезание строки до темы + пробел
@@ -67,14 +74,10 @@ delTheme = False
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
-    await message.answer("Выберете номер и введите в формате [Удалить [номер]]")
+    await message.answer("Выберете номер и введите в формате [Убрать [номер]]")
     #delTheme = True
 
-<<<<<<< HEAD
-@dp.message_handler(lambda message: message.text[:7]=="Удалить")
-=======
-@dp.message_handler(lambda message: message.text[:7]==" Удалить" and message.text[9:end])
->>>>>>> c7d36eb17719e5980dd63e78f2dc434f9e0faa46
+@dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
 async def DelTheme(message: types.Message):
     #if препод
     b=message.text
@@ -120,9 +123,6 @@ async def TK(message: types.Message):
     await message.answer(mes)
 
 
-@dp.message_handler(commands=['help'])
-async def send_help_titles(message:types.Message):
-    await message.answer(texts.help_text)
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
