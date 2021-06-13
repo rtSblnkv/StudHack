@@ -79,6 +79,7 @@ async def addThemeF(message: types.Message):
     
 
 delTheme = False
+cathedra =[]
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
