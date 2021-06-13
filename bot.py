@@ -18,7 +18,17 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands=['start'])
 async def send_hello_answer(message:types.Message):
     await message.answer(texts.start_text,reply_markup=keyBoard.greetKB)
-    
+
+@dp.message_handler(lambda message: message.text == "Помощь")
+async def send_help_titles(message:types.Message):
+    await message.answer(texts.help_text)
+
+
+@dp.message_handler(commands=['help'])
+async def send_help_titles(message:types.Message):
+    await message.answer(texts.help_text)
+
+
 #(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
 async def TK(message: types.Message):
@@ -52,13 +62,17 @@ addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
 async def TK(message: types.Message):
-    await message.answer("Введите название в формате [Добавить [Тема]]")
+#if преподаватель
+    await message.answer("введите название в формате [Создать [Тема]]")
     addTheme = True
+#else ученик
 
-@dp.message_handler(lambda message: message.text == "Добавить"+str(b))
+@dp.message_handler(lambda message: re.match(r'Создать ',message.text))
 async def addThemeF(message: types.Message):
-    theme = message.text[9:]
     teacher_themes = ds.get_teacher_themes(message.from_user.id)
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
+    #theam = ""
     await message.answer("Добавление произведено")
     di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
     
@@ -67,17 +81,20 @@ delTheme = False
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
-    await message.answer("Выберете номер и введите в формате [Удалить [номер]]")
+    await message.answer("Выберете номер и введите в формате [Убрать [номер]]")
     #delTheme = True
 
-@dp.message_handler(lambda message: message.text[:7]==" Удалить" and message.text[9:end])
+@dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
 async def DelTheme(message: types.Message):
+    #if препод
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
     number = int(await message.text)
     await message.answer(" Удаление произведено")
     #await delTheme=False
     #здесь должно быть удаление темы через бд
     dd.del_scienceWorks(number)
-
+    #else ученик
 
 registration = False
 
@@ -114,9 +131,6 @@ async def TK(message: types.Message):
     await message.answer(mes)
 
 
-@dp.message_handler(commands=['help'])
-async def send_help_titles(message:types.Message):
-    await message.answer(texts.help_text)
 
 if __name__ == '__main__':
     executor.start_polling(dp,skip_updates=True)
