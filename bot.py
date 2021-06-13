@@ -31,7 +31,7 @@ async def send_help_titles(message:types.Message):
 
 #(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
-async def TK(message: types.Message):
+async def I_student(message: types.Message):
     cathedras = ds.get_cathedras()
     await message.answer("Выбери кафедру")
     mes = ' '
@@ -45,7 +45,7 @@ paswordCheckActivate = False
 Themse = list()
 
 @dp.message_handler(lambda message: message.text == "Я преподаватель")
-async def TK(message: types.Message):
+async def I_teacher(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("Добро пожаловать", reply_markup=keyBoard.greetTeacher)
         teacher_themes = ds.get_teacher_themes(message.from_user.id)
@@ -61,7 +61,7 @@ async def TK(message: types.Message):
 addTheme = False
 
 @dp.message_handler(lambda message: message.text == "Добавить")
-async def TK(message: types.Message):
+async def Add_ThemeStart(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("введите название в формате [Создать [Тема]]")
         addTheme = True
@@ -84,7 +84,7 @@ delTheme = False
 cathedra =[]
 
 @dp.message_handler(lambda message: message.text == "Удалить")
-async def TK(message: types.Message):
+async def delThemeF(message: types.Message):
     await message.answer("Выберете номер и введите в формате [Убрать [номер]]")
     
 @dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
@@ -116,7 +116,7 @@ async def Registration(message: types.Message):
     date = await message.text
     registration=False
 
-
+@dp.message_handler()
 async def TK(message: types.Message):
     themes = ds.get_themes(message.Text)
     mes = ' '
