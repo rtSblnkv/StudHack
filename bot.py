@@ -116,7 +116,7 @@ async def Registration(message: types.Message):
     date = await message.text
     registration=False
 
-
+@dp.message_handler()
 async def TK(message: types.Message):
     themes = ds.get_themes(message.Text)
     mes = ' '
