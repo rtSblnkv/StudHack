@@ -44,7 +44,8 @@ def get_themes(cathedra_name):
         ON science_works.teacher_id = teachers.id 
         WHERE teachers.cathedra_id = ?''',(get_cathedra_id(cathedra_name),))
         with sqlite_connection:
-            data = cursor.fetchone()
+            data = cursor.fetchall()
+            print(data)
     except Exception as exp:
         print(exp)
     finally:
@@ -111,3 +112,4 @@ def get_teachers_ids():
         database.close_connection(sqlite_connection)
         return result
 
+get_themes('Кафедра технической кибернетики')
