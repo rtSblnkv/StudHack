@@ -6,7 +6,7 @@ import config
 import sqlite3
 import keyBoard
 import texts
-import database_select
+import database_select as ds
 
 
 bot = Bot(token=config.TOKEN)
@@ -22,16 +22,14 @@ async def send_hello_answer(message:types.Message):
     await message.answer(texts.start_text,reply_markup=keyBoard.greetKB)
     
 
-
+#(1, 'Кафедра программных систем')
 @dp.message_handler(lambda message: message.text == "Я студент")
 async def TK(message: types.Message):
+    cathedras = ds.get_cathedras()
     await message.answer("Выбери кафедру")
-    i=0
-    mes=""
-    while i<len(cafedres) :
-        i+=1
-        mes = mes+ str(i) + ". " + cafedres[i-1] +'\n'
-
+    mes = str()
+    for cathedra in cathedras:
+        mes += ' ' + cathedra[0] +'. '+ cathedra[1] + '\n'
     await message.answer(mes)
 
 paswordCheckActivate = False

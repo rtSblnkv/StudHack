@@ -1,5 +1,4 @@
 import database
-import json
 
 def select_from(table):
     try:
@@ -18,7 +17,6 @@ def select_all():
     select_from('students')
     select_from('teachers')
     select_from('science_works')
-
 
 def get_cathedras():
     try:
@@ -70,5 +68,5 @@ def get_teacher(teacher_id):
         return data
 
 
-
+print(get_cathedras())
 
