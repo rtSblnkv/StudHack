@@ -7,7 +7,10 @@ import sqlite3
 import keyBoard
 import texts
 import database_select as ds
-import re
+import database_insert as di
+import database_delete as dd
+
+
 
 bot = Bot(token=config.TOKEN)
 dp = Dispatcher(bot)
@@ -33,7 +36,7 @@ async def TK(message: types.Message):
     await message.answer("Выбери кафедру")
     mes = ' '
     for cathedra in cathedras:
-        mes += ' ' + str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
+        mes += str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
     print(mes)
     await message.answer(mes)
 
@@ -46,6 +49,11 @@ async def TK(message: types.Message):
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         await message.answer("Добро пожаловать", reply_markup=keyBoard.greetTeacher)
         teacher_themes = ds.get_teacher_themes(message.from_user.id)
+        mes = ' '
+        for teacher_theme in teacher_themes:
+            mes += ' ' + str(teacher_theme[0]) +'. '+ str(teacher_theme[1]) + '\n'
+        print(mes)
+        await message.answer(mes)
     else:
         await message.answer("Введите пароль")
         paswordCheckActivate = True
@@ -61,6 +69,7 @@ async def TK(message: types.Message):
         await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
 
 @dp.message_handler(lambda message: re.match(r'Создать ',message.text))
+<<<<<<< HEAD
 async def addThemeF(message: types.Message):    
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         b=message.text
@@ -68,6 +77,18 @@ async def addThemeF(message: types.Message):
         await message.answer("Добавление произведено")
     else:
         await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
+=======
+async def addThemeF(message: types.Message):
+    teacher_themes = ds.get_teacher_themes(message.from_user.id)
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
+    #theam = ""
+    await message.answer("Добавление произведено")
+    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
+    
+
+delTheme = False
+>>>>>>> f7aa2abdc6a5f605adffa588798652f28e9a585f
 
 @dp.message_handler(lambda message: message.text == "Удалить")
 async def TK(message: types.Message):
@@ -75,6 +96,7 @@ async def TK(message: types.Message):
     
 @dp.message_handler(lambda message: re.match(r'Убрать ',message.text))
 async def DelTheme(message: types.Message):
+<<<<<<< HEAD
     if not (message.from_user.id in ds.get_teachers_ids()):#проверка ИД преподавателя
         b=message.text
         b[8:]#обрезание строки до темы + пробел
@@ -83,6 +105,17 @@ async def DelTheme(message: types.Message):
         #здесь должно быть удаление темы через бд
     else:
         await message.answer("Авторизация не пройдена!", reply_markup=keyBoard.greetKB)
+=======
+    #if препод
+    b=message.text
+    b[8:]#обрезание строки до темы + пробел
+    number = int(await message.text)
+    await message.answer(" Удаление произведено")
+    #await delTheme=False
+    #здесь должно быть удаление темы через бд
+    dd.del_scienceWorks(number)
+    #else ученик
+>>>>>>> f7aa2abdc6a5f605adffa588798652f28e9a585f
 
 registration = False
 
