@@ -115,22 +115,15 @@ async def Registration(message: types.Message):
     registration=False
 
 
-works = list()
-works.append("абра кадабра")
-works.append("ахалай махалай")
-works.append("сяськи масяськи")
 
 
-@dp.message_handler()
 async def TK(message: types.Message):
-    i=0
-    mes=""
-    while i<len(works) :
-        i+=1
-        mes = mes+ str(i) + ". " + works[i-1] +'\n'
-        
+    themes = ds.get_themes(message.Text)
+    mes = ' '
+    for theme in themes:
+        mes += str(theme[1]) +'. '+ str(theme[0]) + '\n'
+    print(mes)
     await message.answer(mes)
-
 
 
 if __name__ == '__main__':
