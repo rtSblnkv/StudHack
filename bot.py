@@ -75,7 +75,7 @@ async def addThemeF(message: types.Message):
     b[8:]#обрезание строки до темы + пробел
     #theam = ""
     await message.answer("Добавление произведено")
-    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),theme,message.user_from.id)
+    di.insert_scienceWork(message.user_from.id + teacher_themes.count(),b[8:],message.user_from.id)
     
 
 delTheme = False
@@ -113,8 +113,6 @@ async def CheckPassword(message: types.Message):
 async def Registration(message: types.Message):
     date = await message.text
     registration=False
-
-
 
 
 async def TK(message: types.Message):
