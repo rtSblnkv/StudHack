@@ -10,7 +10,6 @@ import re
 import database_select as ds
 import database_insert as di
 import database_delete as dd
-import re
 
 
 
@@ -43,12 +42,10 @@ async def I_student(message: types.Message):
     mes = ' '
     for cathedra in cathedras:
         mes += str(cathedra[0]) +'. '+ str(cathedra[1]) + '\n'
-    print(mes)
     await message.answer(mes)
 
 @dp.message_handler(lambda message: re.match(r'Кафедра ',message.text))
 async def TK(message: types.Message):
-    print(message.text)
     themes = ds.get_themes(message.text)
     mes = ' '
     for theme in themes:
@@ -65,10 +62,12 @@ def get_info(work_id):
 #(1, 'Куприянов Александр Викторович', 2, '1 корпус, 401 к. или 335 к.', 'sau.yap@gmail.com')
 @dp.message_handler(lambda message:  message.text.isdigit())
 async def getContact(message: types.Message):
-    teacher_id = get_info(message.text)
-    print(teacher_id)
+    print('Темы после',themes)
+    teacher_id = get_info(int(message.text))
     teacher = ds.get_teacher(teacher_id)
     print(teacher)
+    print(teacher_id)
+    print(message.text)
     mes = ''' Преподаватель: {0}\n Адрес: {1}\n Контакты: {2}'''.format(teacher[1],teacher[3],teacher[4])
     await message.answer(mes)
 
